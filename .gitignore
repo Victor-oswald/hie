@@ -1,0 +1,5 @@
+build/
+build-*/
+*.o
+*.cube.tmp
+venv

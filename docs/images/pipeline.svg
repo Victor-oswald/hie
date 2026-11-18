@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<defs><marker id="ag" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 z" fill="#6b7585"/></marker><marker id="ab" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 z" fill="#4aa3ff"/></marker><marker id="ae" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 z" fill="#3ddc97"/></marker><marker id="ao" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 z" fill="#f5a524"/></marker></defs>
+<rect width="900" height="700" rx="14" fill="#14171c"/>
+<text x="24" y="36" fill="#f2f4f8" font-size="20" font-weight="700">HIE pipeline</text>
+<text x="24" y="58" fill="#8b93a1" font-size="12.5">Two paths: a slow analysis path decides the numbers, a fast pixel path applies them to every frame.</text>
+<rect x="250" y="80" width="400" height="52" rx="10" fill="#222831" stroke="#3a4350" stroke-width="1.5"/><text x="450.0" y="102.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">Camera / image input</text><text x="450.0" y="120.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">I420 · NV12 · YUYV · RGB24 — strided, zero-copy</text>
+<line x1="450" y1="132" x2="450" y2="158" stroke="#6b7585" stroke-width="2" marker-end="url(#ag)"/>
+<rect x="250" y="160" width="400" height="52" rx="10" fill="#222831" stroke="#3a4350" stroke-width="1.5"/><text x="450.0" y="182.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">Pre-allocated buffers + thread pool</text><text x="450.0" y="200.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">no heap allocation per frame</text>
+<line x1="380" y1="212" x2="230" y2="262" stroke="#4aa3ff" stroke-width="2" marker-end="url(#ab)"/>
+<line x1="520" y1="212" x2="670" y2="262" stroke="#3ddc97" stroke-width="2" marker-end="url(#ae)"/>
+<rect x="24" y="266" width="382" height="410" rx="14" fill="#10243b" stroke="#2f6db3" stroke-width="1.5"/>
+<text x="44" y="294" fill="#7db9ff" font-size="15" font-weight="700">PATH A · analysis (async, every ~12 frames)</text>
+<rect x="48" y="312" width="334" height="56" rx="10" fill="#17324f" stroke="#2f6db3" stroke-width="1.5"/><text x="215.0" y="336.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">256×256 thumbnail + 128² crop</text><text x="215.0" y="354.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">sampled from the frame, built in parallel</text>
+<line x1="215" y1="368" x2="215" y2="388" stroke="#4aa3ff" stroke-width="2" marker-end="url(#ab)"/>
+<rect x="48" y="392" width="334" height="56" rx="10" fill="#17324f" stroke="#2f6db3" stroke-width="1.5"/><text x="215.0" y="416.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">Predictor</text><text x="215.0" y="434.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">analytic estimator · pluggable ML model</text>
+<line x1="215" y1="448" x2="215" y2="468" stroke="#4aa3ff" stroke-width="2" marker-end="url(#ab)"/>
+<rect x="48" y="472" width="334" height="56" rx="10" fill="#17324f" stroke="#2f6db3" stroke-width="1.5"/><text x="215.0" y="496.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">EMA smoothing</text><text x="215.0" y="514.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">W = 0.85·W_prev + 0.15·W_new  (no flicker)</text>
+<line x1="215" y1="528" x2="215" y2="548" stroke="#4aa3ff" stroke-width="2" marker-end="url(#ab)"/>
+<rect x="48" y="552" width="334" height="56" rx="10" fill="#17324f" stroke="#2f6db3" stroke-width="1.5"/><text x="215.0" y="576.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">Params</text><text x="215.0" y="594.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">WB · EV · contrast · saturation · shadows · CLAHE · denoise</text>
+<rect x="494" y="266" width="382" height="410" rx="14" fill="#0f2a22" stroke="#2a9d6b" stroke-width="1.5"/>
+<text x="514" y="294" fill="#6ee7b0" font-size="15" font-weight="700">PATH B · pixels (every frame, multi-threaded)</text>
+<rect x="518" y="312" width="334" height="56" rx="10" fill="#16392e" stroke="#2a9d6b" stroke-width="1.5"/><text x="685.0" y="336.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">1 · Luma denoise</text><text x="685.0" y="354.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">edge-preserving 3×3 bilateral, Y only</text>
+<line x1="685" y1="368" x2="685" y2="388" stroke="#3ddc97" stroke-width="2" marker-end="url(#ae)"/>
+<rect x="518" y="392" width="334" height="56" rx="10" fill="#16392e" stroke="#2a9d6b" stroke-width="1.5"/><text x="685.0" y="416.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">2 · CLAHE on luma</text><text x="685.0" y="434.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">8×8 tiles, temporally smoothed LUTs</text>
+<line x1="685" y1="448" x2="685" y2="468" stroke="#3ddc97" stroke-width="2" marker-end="url(#ae)"/>
+<rect x="518" y="472" width="334" height="56" rx="10" fill="#16392e" stroke="#2a9d6b" stroke-width="1.5"/><text x="685.0" y="496.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">3 · Chroma upsample → RGB</text><text x="685.0" y="514.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">linear 4:2:0 · fixed-point BT.601 / BT.709</text>
+<line x1="685" y1="528" x2="685" y2="548" stroke="#3ddc97" stroke-width="2" marker-end="url(#ae)"/>
+<rect x="518" y="552" width="334" height="56" rx="10" fill="#16392e" stroke="#2a9d6b" stroke-width="1.5"/><text x="685.0" y="576.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">4 · Colour stage</text><text x="685.0" y="594.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">WB · exposure · tone · saturation (exact tables)</text>
+<line x1="685" y1="608" x2="685" y2="628" stroke="#3ddc97" stroke-width="2" marker-end="url(#ae)"/>
+<rect x="518" y="632" width="334" height="40" rx="10" fill="#1d4a3b" stroke="#3ddc97" stroke-width="1.5"/><text x="685.0" y="648.0" fill="#f2f4f8" font-size="14" font-weight="700" text-anchor="middle">Output</text><text x="685.0" y="666.0" fill="#aab2c0" font-size="11.5" text-anchor="middle">RGB24 · BGR24 · RGBA32 · BGRA32</text>
+<path d="M382 580 C 440 580, 450 580, 494 580" fill="none" stroke="#f5a524" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ao)"/>
+<text x="440" y="584" fill="#f5a524" font-size="11.5" text-anchor="middle" transform="rotate(-90 440 584)">parameters</text>
+</svg>
