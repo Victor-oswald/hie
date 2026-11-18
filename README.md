@@ -118,7 +118,7 @@ to do better on hard cases.
 > New to C++? Follow the step-by-step [Windows and Android setup guide](docs/SETUP_WINDOWS_ANDROID.md).
 
 ```bash
-git clone <your-repo-url> hie && cd hie
+git clone https://github.com/Victor-oswald/hie.git hie && cd hie
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j
 ./build/hie_tests                     # 18 suites, 75 checks
